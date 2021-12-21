@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import { getPokemons, getPokemonData } from "./services/api";
 
 function App() {
+  const [trigerPokedex, setTrigerPokedex] = useState(true);
+  const [pokemons, setPokemons] = useState([]);
+  console.log(trigerPokedex);
+  useEffect(() => {
+    fetchPokemons();
+  }, [trigerPokedex]);
+
+  const fetchPokemons = async () => {
+    try {
+      const data = await getPokemons();
+      const promises = data.results.map(async (pokemon) => {
+        return await getPokemonData(pokemon.url);
+      });
+      const result = await Promise.all(promises);
+      setPokemons(result);
+      console.log(result);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button onClick={() => setTrigerPokedex(!trigerPokedex)}>
+        Descubre Pokemones
+      </button>
+      {pokemons.map((pokemon, idx) => {
+        return <p key={idx}>{pokemon.name}</p>;
+      })}
     </div>
   );
 }
