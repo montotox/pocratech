@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import UserContext from "./context/UserContext";
 import { getPokemons, getPokemonData } from "./services/api";
+import PokeCard from "./components/PokeCard";
 
 function App() {
   const [trigerPokedex, setTrigerPokedex] = useState(true);
@@ -26,6 +27,8 @@ function App() {
   // Simulamos que traemos información del usuario
   const userData = {
     username: "Ricardo",
+    school: "Socratech",
+    year: 2021,
   };
 
   return (
@@ -37,6 +40,7 @@ function App() {
         {pokemons.map((pokemon, idx) => {
           return <p key={idx}>{pokemon.name}</p>;
         })}
+        <PokeCard />
       </div>
     </UserContext.Provider>
   );
