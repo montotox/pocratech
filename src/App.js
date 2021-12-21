@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import UserContext from "./context/UserContext";
 import { getPokemons, getPokemonData } from "./services/api";
 
 function App() {
@@ -22,16 +23,22 @@ function App() {
       console.log(error);
     }
   };
+  // Simulamos que traemos información del usuario
+  const userData = {
+    username: "Ricardo",
+  };
 
   return (
-    <div className="App">
-      <button onClick={() => setTrigerPokedex(!trigerPokedex)}>
-        Descubre Pokemones
-      </button>
-      {pokemons.map((pokemon, idx) => {
-        return <p key={idx}>{pokemon.name}</p>;
-      })}
-    </div>
+    <UserContext.Provider value={userData}>
+      <div className="App">
+        <button onClick={() => setTrigerPokedex(!trigerPokedex)}>
+          Descubre Pokemones
+        </button>
+        {pokemons.map((pokemon, idx) => {
+          return <p key={idx}>{pokemon.name}</p>;
+        })}
+      </div>
+    </UserContext.Provider>
   );
 }
 
