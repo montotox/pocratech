@@ -14,7 +14,9 @@ const verify = (req, res, next) => {
     return res.status(401).json("Token no valido");
   }
 
-  jwt.verify(token, process.env.SECRET, (error, decoded) => {
+  // process.env.SECRET (en lugar de pokesecret)
+
+  jwt.verify(token, "pokesecret", (error, decoded) => {
     if (error) {
       console.log(error);
       return res.status(400).json(error);

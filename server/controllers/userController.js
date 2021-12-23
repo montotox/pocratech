@@ -6,13 +6,16 @@ class userController {
   //User register
   saveUser = (req, res) => {
     const { name, user_name, password } = req.body;
+    let saltRounds = 8;
+    bcrypt.genSalt(saltRounds, function (err, salt) {
+      bcrypt.hash(password, salt, function (err, hash) {
+        let sql = `INSERT INTO user (name, user_name, password) VALUES ( '${name}', '${user_name}', '${hash}')`;
 
-    bcrypt.hash(password, 8, (error, hash) => {
-      if (error) throw error;
-      let sql = `INSERT INTO user (name, user_name, password) VALUES ( '${name}', '${user_name}', '${hash}')`;
-
-      connection.query(sql, (error, result) => {
-        error ? res.status(400).json({ error }) : res.status(200).json(result);
+        connection.query(sql, (error, result) => {
+          error
+            ? res.status(400).json({ error })
+            : res.status(200).json(result);
+        });
       });
     });
   };
@@ -42,7 +45,8 @@ class userController {
         if (response === true) {
           const token = jwt.sign(
             { user: { user_name: user.user_name, name: user.name } },
-            process.env.SECRET,
+            // process.env.SECRET,
+            "pokesecret",
             { expiresIn: "5min" }
           );
           res.status(200).json({ token });
