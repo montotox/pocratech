@@ -52,7 +52,7 @@ class userController {
           res.status(200).json({ token });
           //si las contraseñas no coinciden
         } else {
-          res.status(401).json("contraseña no válida");
+          res.status(401).json("Usuario y contraseña incorrectos");
         }
       });
     });

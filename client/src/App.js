@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import jwtDecode from "jwt-decode";
 import UserContext from "./context/UserContext";
 import { getPokemons, getPokemonData } from "./services/api";
 import PokeCard from "./components/PokeCard";
@@ -7,6 +8,7 @@ import PokeCard from "./components/PokeCard";
 function App() {
   const [trigerPokedex, setTrigerPokedex] = useState(true);
   const [pokemons, setPokemons] = useState([]);
+  const [decodeToken, setDecodeToken] = useState({});
   console.log(trigerPokedex);
   useEffect(() => {
     fetchPokemons();
@@ -31,21 +33,37 @@ function App() {
     school: "Socratech",
     year: 2021,
   };
-
+  // Register user
   const newUser = () => {
     axios
-      .post("localhost:4000/users/saveUser", {
+      .post("http://localhost:4000/users/saveUser", {
         name: "Pocha",
         user_name: "pochita",
         password: "123",
       })
-      .then(function (response) {
+      .then((response) => {
         console.log(response);
-      })
-      .catch(function (error) {
-        console.log(error);
       });
   };
+
+  const TOKEN = "token";
+  // Login user
+  const loginUser = () => {
+    axios
+      .post("http://localhost:4000/users/login", {
+        user_name: "pochita",
+        password: "123",
+      })
+      .then((response) => {
+        console.log(response);
+        console.log(response.data.token);
+        console.log(jwtDecode(response.data.token));
+        setDecodeToken(jwtDecode(response.data.token));
+        localStorage.setItem(TOKEN, response.data.token);
+      });
+  };
+
+  console.log("DecodeToken", decodeToken.user.name);
 
   return (
     <UserContext.Provider value={userData}>
@@ -54,6 +72,7 @@ function App() {
           Descubre Pokemones
         </button>
         <button onClick={newUser}>Crear usuarios</button>
+        <button onClick={loginUser}>Login usuarios</button>
         {pokemons.map((pokemon, idx) => {
           return <p key={idx}>{pokemon.name}</p>;
         })}
