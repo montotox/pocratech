@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import axios from "axios";
 import UserContext from "./context/UserContext";
 import { getPokemons, getPokemonData } from "./services/api";
 import PokeCard from "./components/PokeCard";
@@ -31,12 +32,28 @@ function App() {
     year: 2021,
   };
 
+  const newUser = () => {
+    axios
+      .post("localhost:4000/users/saveUser", {
+        name: "Pocha",
+        user_name: "pochita",
+        password: "123",
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
   return (
     <UserContext.Provider value={userData}>
       <div className="App">
         <button onClick={() => setTrigerPokedex(!trigerPokedex)}>
           Descubre Pokemones
         </button>
+        <button onClick={newUser}>Crear usuarios</button>
         {pokemons.map((pokemon, idx) => {
           return <p key={idx}>{pokemon.name}</p>;
         })}

@@ -1,20 +1,16 @@
 var mysql = require("mysql");
-require("dotenv").config({ path: __dirname + "/.env" });
-
-// var connection = mysql.createConnection({
-//   host: process.env.DB_HOST,
-//   user: process.env.DB_USER,
-//   password: process.env.DB_PASS,
-//   database: process.env.DB_NAME,
-// });
+require("dotenv").config();
 var connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "root",
-  database: "pokemon",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME,
 });
 connection.connect((error) => {
   if (error) throw error;
-  console.log("conexion correcta");
+  console.log("Conexión DB correcta");
+  console.log("####################################");
+  console.log("Server starter port: 4000");
+  console.log("####################################");
 });
 module.exports = connection;
