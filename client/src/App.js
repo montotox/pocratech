@@ -9,9 +9,12 @@ function App() {
   const [trigerPokedex, setTrigerPokedex] = useState(true);
   const [pokemons, setPokemons] = useState([]);
   const [decodeToken, setDecodeToken] = useState({});
+  const [token, setToken] = useState(null);
   console.log(trigerPokedex);
+
   useEffect(() => {
     fetchPokemons();
+    getTokenLocalStorage();
   }, [trigerPokedex]);
 
   const fetchPokemons = async () => {
@@ -55,15 +58,34 @@ function App() {
         password: "123",
       })
       .then((response) => {
-        console.log(response);
-        console.log(response.data.token);
-        console.log(jwtDecode(response.data.token));
         setDecodeToken(jwtDecode(response.data.token));
+        console.log(jwtDecode(response.data.token));
         localStorage.setItem(TOKEN, response.data.token);
+        setToken(localStorage.getItem(TOKEN));
       });
   };
 
-  console.log("DecodeToken", decodeToken.user.name);
+  const getTokenLocalStorage = () => {
+    setToken(localStorage.getItem(TOKEN));
+  };
+
+  const logout = () => {
+    localStorage.removeItem(TOKEN);
+    setToken(null);
+  };
+
+  //localhost:4000/pokemon/:user_id/:pokemon_id
+
+  // Guardar pokemon por usuario
+  const newPokemon = (pokemonID) => {
+    const decodeUser = jwtDecode(token);
+    const userID = decodeUser.user.id;
+    axios
+      .post(`http://localhost:4000/pokemon/${userID}/${pokemonID}`, {})
+      .then((response) => {
+        console.log(response);
+      });
+  };
 
   return (
     <UserContext.Provider value={userData}>
@@ -73,10 +95,21 @@ function App() {
         </button>
         <button onClick={newUser}>Crear usuarios</button>
         <button onClick={loginUser}>Login usuarios</button>
+        <button onClick={logout}>Cerrar sesión</button>
+
         {pokemons.map((pokemon, idx) => {
-          return <p key={idx}>{pokemon.name}</p>;
+          return (
+            <div key={idx}>
+              <p>{pokemon.name}</p>
+              <button onClick={() => newPokemon(pokemon.id)}>
+                Agregar pokemon
+              </button>
+            </div>
+          );
         })}
+
         <PokeCard />
+        {token ? "Bieeeeeeeeen!" : "Mal"}
       </div>
     </UserContext.Provider>
   );

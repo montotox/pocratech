@@ -38,13 +38,18 @@ class userController {
       const [user] = result;
       const hash = user.password;
 
+      //me robo el user_id de Miriam
+      const user_id = user.user_id;
+
       //comparamos contraseñas
       bcrypt.compare(password, hash, (error, response) => {
         if (error) throw error;
         //si las contraseñas coinciden
         if (response === true) {
           const token = jwt.sign(
-            { user: { user_name: user.user_name, name: user.name } },
+            {
+              user: { user_name: user.user_name, name: user.name, id: user_id },
+            },
             // process.env.SECRET,
             "pokesecret",
             { expiresIn: "5min" }

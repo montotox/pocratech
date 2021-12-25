@@ -1,6 +1,7 @@
 const connection = require("../config/db");
 
 class pokemonController {
+  //Guarda un pokemon por usuario
   savePokemon = (req, res) => {
     const { user_id, pokemon_id } = req.params;
 
