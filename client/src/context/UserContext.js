@@ -1,8 +1,24 @@
-import { createContext } from "react";
+import { createContext, useState } from "react";
+import { userAuth } from "../services/dataObj";
 
-const authContext = createContext({
-  username: null,
-  school: null,
-  year: null,
-});
-export default authContext;
+export const AuthContext = createContext({});
+
+export const AuthProvider = ({ children }) => {
+  const [dataAuth, setDataAuth] = useState({
+    auth: userAuth(),
+  });
+
+  const setUser = (user) => {
+    setDataAuth(user);
+  };
+
+  const context = {
+    dataAuth,
+    setDataAuth,
+    setUser,
+  };
+
+  return (
+    <AuthContext.Provider value={context}>{children}</AuthContext.Provider>
+  );
+};
