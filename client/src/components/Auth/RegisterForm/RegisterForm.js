@@ -69,10 +69,6 @@ export default function RegisterForm(props) {
         />
         <button type="submit">Registrar</button>
       </form>
-      <p>
-        ¿Ya tienes usuario?{" "}
-        <span onClick={() => setShowLogin(true)}>Login</span>
-      </p>
     </>
   );
 }

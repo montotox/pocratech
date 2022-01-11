@@ -70,10 +70,6 @@ export default function LoginForm(props) {
 
         <button type="submit">Login</button>
       </form>
-      <p>
-        ¿Aún no estas registrado?{" "}
-        <span onClick={() => setShowLogin(false)}>Regístrate</span>
-      </p>
     </>
   );
 }
