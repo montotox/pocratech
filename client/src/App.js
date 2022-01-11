@@ -3,22 +3,46 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 // import UserContext from "./context/UserContext";
 import { AuthProvider } from "./context/UserContext";
-import { getPokemons, getPokemonData } from "./services/api";
+import { getPokemons, getPokemonData, getPokemonData2 } from "./services/api";
 import PokeCard from "./components/PokeCard";
 import RegisterForm from "./components/Auth/RegisterForm";
 import LoginForm from "./components/Auth/LoginForm";
+import { CardPoke } from "./components/CardPoke/CardPoke";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Button from "@mui/material/Button";
 
 function App() {
   const [trigerPokedex, setTrigerPokedex] = useState(true);
   const [pokemons, setPokemons] = useState([]);
+  const [pokemon, setPokemon] = useState({});
   const [decodeToken, setDecodeToken] = useState({});
   const [token, setToken] = useState(null);
   const [showLogin, setShowLogin] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+  const [open, setOpen] = useState(false);
   console.log(trigerPokedex);
 
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const style = {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: 400,
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
+
   useEffect(() => {
+    setIsLoading(true);
     fetchPokemons();
     getTokenLocalStorage();
+    getPokemonData2();
   }, [trigerPokedex]);
 
   const fetchPokemons = async () => {
@@ -30,11 +54,20 @@ function App() {
       });
       const result = await Promise.all(promises);
       setPokemons(result);
+
       console.log(result);
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
     }
   };
+
+  const getPokeId = async (id) => {
+    const result = await getPokemonData2(id);
+    setPokemon(result);
+    setOpen(true);
+  };
+
   // Simulamos que traemos información del usuario
   const userData = {
     username: "Ricardo",
@@ -110,17 +143,34 @@ function App() {
               <button onClick={() => newPokemon(pokemon.id)}>
                 Agregar pokemon
               </button>
+              <button onClick={() => getPokeId(pokemon.id)}>
+                Ver Detalles
+              </button>
             </div>
           );
         })}
 
         <PokeCard />
         {token ? "Bieeeeeeeeen!" : "Mal"}
+
         {showLogin ? (
           <LoginForm setShowLogin={setShowLogin} />
         ) : (
           <RegisterForm setShowLogin={setShowLogin} />
         )}
+      </div>
+
+      <div>
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Box sx={style}>
+            {!isLoading ? <CardPoke pokemon={pokemon} /> : null}
+          </Box>
+        </Modal>
       </div>
     </AuthProvider>
   );
