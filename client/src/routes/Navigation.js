@@ -4,6 +4,7 @@ import routes from "./routes";
 import { map } from "lodash";
 
 export default function Navigation(props) {
+  const pochita = "pocha";
   return (
     <Router>
       <Routes>
