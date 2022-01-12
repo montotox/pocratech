@@ -1,7 +1,7 @@
 import React from "react";
 
 export const CardPoke = ({ pokemon }) => {
-  //   console.log("prop", pokemon);
+  console.log("prop", pokemon);
 
   const porcent = (stat) => {
     const max = 255;
