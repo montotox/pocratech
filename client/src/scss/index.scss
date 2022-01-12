@@ -1,13 +1,55 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
+@import "./colors.scss";
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+.color {
+  &-normal {
+    background-color: $type-normal;
+  }
+  &-fighting {
+    background-color: $type-fighting;
+  }
+  &-flying {
+    background-color: $type-flying;
+  }
+  &-poison {
+    background-color: $type-poison;
+  }
+  &-rock {
+    background-color: $type-rock;
+  }
+  &-bug {
+    background-color: $type-bug;
+  }
+  &-ghost {
+    background-color: $type-ghost;
+  }
+  &-steel {
+    background-color: $type-steel;
+  }
+  &-fire {
+    background-color: $type-fire;
+  }
+  &-water {
+    background-color: $type-water;
+  }
+  &-grass {
+    background-color: $type-grass;
+  }
+  &-electric {
+    background-color: $type-electric;
+  }
+  &-psychic {
+    background-color: $type-psychic;
+  }
+  &-ice {
+    background-color: $type-ice;
+  }
+  &-dragon {
+    background-color: $type-dragon;
+  }
+  &-dark {
+    background-color: $type-dark;
+  }
+  &-fairy {
+    background-color: $type-fairy;
+  }
 }

@@ -1,23 +1,30 @@
 import React from "react";
 
 export const CardPoke = ({ pokemon }) => {
-  //   console.log("prop", pokemon);
+  console.log("prop", pokemon);
 
   const porcent = (stat) => {
     const max = 255;
-
     return (stat / max) * 100;
   };
 
   return (
-    <div>
+    <div className={`color-${pokemon.types[0].type.name}`}>
       <h1>CardPoke</h1>
       <div>
         <h3>{pokemon.name}</h3>
         <img src={pokemon.sprites.front_default} />
         <div>
-          {pokemon.types.map((pokemon, idx) => {
-            return <p key={idx}>Type: {pokemon.type.name}</p>;
+          {pokemon.types.map((type, idx) => {
+            console.log(idx);
+            return (
+              <div
+                key={idx}
+                className={`color-${pokemon.types[idx].type.name}`}
+              >
+                <p>{type.type.name}</p>
+              </div>
+            );
           })}
         </div>
         <div>
@@ -34,7 +41,7 @@ export const CardPoke = ({ pokemon }) => {
           return (
             <div key={idx}>
               <p>
-                {stat.stat.name} : {porcent(stat.base_stat)}%
+                {stat.stat.name} : {stat.base_stat}
               </p>
             </div>
           );

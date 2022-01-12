@@ -50,8 +50,7 @@ class userController {
             {
               user: { user_name: user.user_name, name: user.name, id: user_id },
             },
-            // process.env.SECRET,
-            "pokesecret",
+            process.env.SECRET,
             { expiresIn: "5min" }
           );
           res.status(200).json({ token });

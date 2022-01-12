@@ -3,7 +3,6 @@ const auth = {
   name: "",
   token: "",
   user_id: "",
-  pokemons: [],
 };
 
 export function userAuth() {

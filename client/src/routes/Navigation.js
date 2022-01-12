@@ -2,22 +2,25 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import routes from "./routes";
 import { map } from "lodash";
+import { Navbar } from "../components/Navbar/Navbar";
 
-export default function Navigation(props) {
-  const pochita = "pocha";
+export default function Navigation({ logout }) {
   return (
-    <Router>
-      <Routes>
-        {map(routes, (route, index) => (
-          <Route
-            key={index}
-            path={route.path}
-            exact={route.exact}
-            element={<route.component />}
-          />
-        ))}
-      </Routes>
-    </Router>
+    <>
+      <Navbar logout={logout} />
+      <Router>
+        <Routes>
+          {map(routes, (route, index) => (
+            <Route
+              key={index}
+              path={route.path}
+              exact={route.exact}
+              element={<route.component />}
+            />
+          ))}
+        </Routes>
+      </Router>
+    </>
   );
 }
 

@@ -3,10 +3,9 @@ import axios from "axios";
 import jwtDecode from "jwt-decode";
 import { AuthContext } from "../../../context/UserContext";
 
-export default function LoginForm(props) {
+export default function LoginForm({ setToken }) {
   const context = useContext(AuthContext);
   const { dataAuth, setUser } = context;
-  const { setShowLogin } = props;
   const [loginUser, setLoginUser] = useState({
     user_name: "",
     password: "",
@@ -30,6 +29,7 @@ export default function LoginForm(props) {
         .then((response) => {
           console.log(response);
           localStorage.setItem("token", response.data.token);
+          setToken(response.data.token);
           setLoginUser({
             user_name: "",
             password: "",

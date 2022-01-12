@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import LoginForm from "../components/Auth/LoginForm";
 import RegisterForm from "../components/Auth/RegisterForm";
 
-export default function Auth() {
+export default function Auth({ setToken }) {
   const [showLogin, setshowLogin] = useState(true);
   return (
     <>
-      <div>{showLogin ? <LoginForm /> : <RegisterForm />}</div>
+      <div>
+        {showLogin ? <LoginForm setToken={setToken} /> : <RegisterForm />}
+      </div>
       <div>
         <p>
           {showLogin ? (
