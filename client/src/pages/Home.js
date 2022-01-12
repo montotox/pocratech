@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Navbar } from "../components/Navbar/Navbar";
 import { OnePoke } from "../components/OnePoke/OnePoke";
 import { getPokemonData, getPokemons } from "../services/api";
 import Box from "@mui/material/Box";

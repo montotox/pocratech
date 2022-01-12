@@ -36,10 +36,12 @@ export default function LoginForm({ setToken }) {
           });
           const dataDecode = jwtDecode(response.data.token);
           const user = {
-            user_name: dataDecode.user.user_name,
-            name: dataDecode.user.name,
-            token: response.data.token,
-            user_id: dataDecode.user.id,
+            auth: {
+              user_name: dataDecode.user.user_name,
+              name: dataDecode.user.name,
+              token: response.data.token,
+              user_id: dataDecode.user.id,
+            },
           };
           setUser(user);
         });
