@@ -7,8 +7,8 @@ import { Navbar } from "../components/Navbar/Navbar";
 export default function Navigation({ logout }) {
   return (
     <>
-      <Navbar logout={logout} />
       <Router>
+        <Navbar logout={logout} />
         <Routes>
           {map(routes, (route, index) => (
             <Route

@@ -1,4 +1,5 @@
 import React from "react";
+import "./OnePoke.scss";
 
 export const OnePoke = ({ pokemon, handleClick }) => {
   //   console.log("Pokemon", pokemon);

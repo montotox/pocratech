@@ -1,6 +1,11 @@
 import React from "react";
 
-export const CardPoke = ({ pokemon, savePokemon }) => {
+export const CardPoke = ({
+  pokemon,
+  savePokemon,
+  isLanding,
+  removePokemon,
+}) => {
   console.log("prop", pokemon);
 
   const porcent = (stat) => {
@@ -11,7 +16,15 @@ export const CardPoke = ({ pokemon, savePokemon }) => {
   return (
     <div className={`color-${pokemon.types[0].type.name}`}>
       <h1>CardPoke</h1>
-      <button onClick={() => savePokemon(pokemon.id)}>Agregar Pokemon</button>
+
+      {isLanding == "home" ? (
+        <button onClick={() => savePokemon(pokemon.id)}>Agregar Pokemon</button>
+      ) : (
+        <button onClick={() => removePokemon(pokemon.id)}>
+          Eliminar Pokemon
+        </button>
+      )}
+
       <div>
         <h3>{pokemon.name}</h3>
         <h4>{pokemon.id}</h4>

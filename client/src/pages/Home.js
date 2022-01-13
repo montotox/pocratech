@@ -32,6 +32,7 @@ export default function Home() {
   };
 
   const handleClose = () => setOpen(false);
+
   const AllPokemons = async () => {
     try {
       const data = await getPokemons();
@@ -86,7 +87,11 @@ export default function Home() {
         >
           <Box sx={style}>
             {!isLoading ? (
-              <CardPoke pokemon={pokemonSelected} savePokemon={savePokemon} />
+              <CardPoke
+                pokemon={pokemonSelected}
+                savePokemon={savePokemon}
+                isLanding="home"
+              />
             ) : null}
           </Box>
         </Modal>
