@@ -12,7 +12,11 @@ export default function PokeList({ user_id }) {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     getPokemonsIds();
-  }, []);
+  }, [pokemons]);
+
+  useEffect(() => {
+    setIsLoading(!isLoading);
+  }, [pokemons]);
 
   const getPokemonsIds = () => {
     axios
@@ -30,20 +34,19 @@ export default function PokeList({ user_id }) {
       return await getPokemonDataID(pokemon.pokemon_id);
     });
     const result = await Promise.all(promises);
-    console.log(result);
+    console.log("Lista pokemones detallada ANTES:", pokemons);
     setPokemons(result);
-    setIsLoading(false);
+    console.log("Lista pokemones detallada DESPUES:", pokemons);
   };
-
-  console.log("Lista pokemones detallada:", pokemons);
 
   return (
     <div>
-      {isLoading ? (
+      {isLoading && pokemons ? (
         "Cargando.."
       ) : (
         <div>
           {pokemons.map((pokemon, idx) => {
+            console.log(pokemon);
             return <OnePoke pokemon={pokemon} key={idx} />;
           })}
         </div>
