@@ -1,15 +1,11 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useContext } from "react";
 import Auth from "./pages/Auth";
 import Navigation from "./routes/Navigation";
-
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import { AuthProvider } from "./context/UserContext";
-import { getPokemonData2 } from "./services/api";
 
 function App() {
-  const [trigerPokedex, setTrigerPokedex] = useState(true);
-  const [pokemon, setPokemon] = useState({});
   const [token, setToken] = useState(undefined);
 
   useEffect(() => {
@@ -19,7 +15,8 @@ function App() {
   const TOKEN = "token";
 
   const getTokenLocalStorage = () => {
-    setToken(localStorage.getItem(TOKEN));
+    const tokenLocal = localStorage.getItem(TOKEN);
+    setToken(tokenLocal);
   };
 
   const logout = () => {
@@ -40,7 +37,7 @@ function App() {
       });
   };
 
-  if (token === undefined) return null;
+  // if (token === undefined) return null;
 
   return (
     <AuthProvider>

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import jwtDecode from "jwt-decode";
 import { AuthContext } from "../../../context/UserContext";
@@ -10,6 +10,12 @@ export default function LoginForm({ setToken }) {
     user_name: "",
     password: "",
   });
+
+  const TOKEN = "token";
+
+  useEffect(() => {
+    getTokenLocalStorage();
+  }, []);
 
   const handleInput = (e) => {
     const name = e.target.name;
@@ -28,7 +34,7 @@ export default function LoginForm({ setToken }) {
         })
         .then((response) => {
           console.log(response);
-          localStorage.setItem("token", response.data.token);
+          localStorage.setItem(TOKEN, response.data.token);
           setToken(response.data.token);
           setLoginUser({
             user_name: "",
@@ -46,6 +52,22 @@ export default function LoginForm({ setToken }) {
           setUser(user);
         });
     } catch (error) {}
+  };
+
+  const getTokenLocalStorage = () => {
+    const token = localStorage.getItem(TOKEN);
+    if (token) {
+      const dataDecode = jwtDecode(token);
+      const user = {
+        auth: {
+          user_name: dataDecode.user.user_name,
+          name: dataDecode.user.name,
+          token: token,
+          user_id: dataDecode.user.id,
+        },
+      };
+      setUser(user);
+    }
   };
 
   return (
