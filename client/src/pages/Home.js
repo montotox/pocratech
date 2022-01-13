@@ -45,8 +45,6 @@ export default function Home() {
     }
   };
   const handleClick = (pokemon) => {
-    console.log("pocha", pokemon);
-
     setPokemonSelected(pokemon);
     setIsLoading(false);
     setOpen(true);

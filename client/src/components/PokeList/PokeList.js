@@ -12,46 +12,43 @@ export default function PokeList({ user_id }) {
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     getPokemonsIds();
-  }, [pokemons]);
-
-  useEffect(() => {
-    setIsLoading(!isLoading);
-  }, [pokemons]);
+  }, []);
 
   const getPokemonsIds = () => {
     axios
       .get(`http://localhost:4000/pokemon/${user_id}`, {})
       .then((response) => {
-        console.log("Lista de pokemones DB", response.data.result);
-        setPokemonList(response.data.result);
-        fetchPokemonsID();
+        const data = response.data.result;
+        fetchPokemonsID(data);
       });
   };
 
-  const fetchPokemonsID = async () => {
-    const promises = pokemonList.map(async (pokemon) => {
-      console.log(pokemon);
-      return await getPokemonDataID(pokemon.pokemon_id);
-    });
-    const result = await Promise.all(promises);
-    console.log("Lista pokemones detallada ANTES:", pokemons);
-    setPokemons(result);
-    console.log("Lista pokemones detallada DESPUES:", pokemons);
+  const fetchPokemonsID = async (data) => {
+    try {
+      const promises = data.map(async (pokemon) => {
+        return await getPokemonDataID(pokemon.pokemon_id);
+      });
+      const result = await Promise.all(promises);
+      console.log("result", result);
+      setPokemons(result);
+    } catch (error) {
+      console.log(error);
+    }
+    setIsLoading(false);
   };
+
+  if (isLoading) {
+    return null;
+  }
 
   return (
     <div>
-      {isLoading && pokemons ? (
-        "Cargando.."
-      ) : (
-        <div>
-          {pokemons.map((pokemon, idx) => {
-            console.log(pokemon);
-            return <OnePoke pokemon={pokemon} key={idx} />;
-          })}
-        </div>
-      )}
-
+      <div>
+        {pokemons.map((pokemon, idx) => {
+          console.log(pokemon);
+          return <OnePoke pokemon={pokemon} key={idx} />;
+        })}
+      </div>
       {/* <div>
         <Modal
           open={open}
