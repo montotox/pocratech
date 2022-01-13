@@ -1,6 +1,6 @@
 import React from "react";
 
-export const CardPoke = ({ pokemon }) => {
+export const CardPoke = ({ pokemon, savePokemon }) => {
   console.log("prop", pokemon);
 
   const porcent = (stat) => {
@@ -11,12 +11,13 @@ export const CardPoke = ({ pokemon }) => {
   return (
     <div className={`color-${pokemon.types[0].type.name}`}>
       <h1>CardPoke</h1>
+      <button onClick={() => savePokemon(pokemon.id)}>Agregar Pokemon</button>
       <div>
         <h3>{pokemon.name}</h3>
+        <h4>{pokemon.id}</h4>
         <img src={pokemon.sprites.front_default} />
         <div>
           {pokemon.types.map((type, idx) => {
-            console.log(idx);
             return (
               <div
                 key={idx}

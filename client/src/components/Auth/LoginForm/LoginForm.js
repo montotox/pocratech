@@ -5,7 +5,7 @@ import { AuthContext } from "../../../context/UserContext";
 
 export default function LoginForm({ setToken }) {
   const context = useContext(AuthContext);
-  const { dataAuth, setUser } = context;
+  const { setUser } = context;
   const [loginUser, setLoginUser] = useState({
     user_name: "",
     password: "",
